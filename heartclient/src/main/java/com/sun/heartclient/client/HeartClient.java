@@ -40,7 +40,10 @@ public class HeartClient {
 	public void start() throws InterruptedException {
 
 		Bootstrap bootstrap = new Bootstrap();
-		bootstrap.group(group).channel(NioSocketChannel.class).handler(new CustomerHandleInitializer());
+		bootstrap
+				.group(group)
+				.channel(NioSocketChannel.class)
+				.handler(new CustomerHandleInitializer());
 		ChannelFuture future = bootstrap.connect(host, port).sync();
 		if (future.isSuccess())
 			logger.info("客户端已经启动");

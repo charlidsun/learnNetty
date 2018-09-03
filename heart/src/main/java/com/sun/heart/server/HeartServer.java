@@ -44,11 +44,13 @@ public class HeartServer {
 		ServerBootstrap serverBootstrap = new ServerBootstrap();
 		serverBootstrap.group(boosGroup, workGroup)
 				.channel(NioServerSocketChannel.class)
+                .localAddress(new InetSocketAddress(port))
 				//保持长连接
 				.childOption(ChannelOption.SO_KEEPALIVE,true)
 				.childHandler(new HeartbeatInitializer());
 	
-		ChannelFuture future = serverBootstrap.bind(new InetSocketAddress(host, port)).sync();
+        ChannelFuture future = serverBootstrap.bind().sync();
+
 		if (future.isSuccess()) logger.info("服务器启动");
 		//future.channel().closeFuture().sync();
 	}

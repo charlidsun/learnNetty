@@ -31,26 +31,28 @@ public class HeartBeatSimpleHandle extends SimpleChannelInboundHandler<CustomPro
      * 处理过来的链接
      */
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, CustomProtocol msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, CustomProtocol customProtocol) throws Exception {
 		
 		logger.info("新来一条链接地址->");
 		//保存链接地址
-		NettySocketHolder.add(msg.getId(),(NioSocketChannel)ctx.channel()) ;
+		NettySocketHolder.add(customProtocol.getId(),(NioSocketChannel)ctx.channel()) ;
+
 	}
 	
 	
 	@Override
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception{
-		
+				
         if (evt instanceof IdleStateEvent){
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt ;
-
+            
             if (idleStateEvent.state() == IdleState.READER_IDLE){
                 logger.info("已经5秒没有收到信息！");
-                System.out.println("dddddd");
                 //向客户端发送消息
                 ctx.writeAndFlush(HEART_BEAT).addListener(ChannelFutureListener.CLOSE_ON_FAILURE) ;
             }
+            
+            System.out.println(NettySocketHolder.getCount());
         }
 	}
 	

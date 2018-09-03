@@ -18,6 +18,10 @@ public class NettySocketHolder {
 
 	private static final Map<Long, NioSocketChannel> MAP = new ConcurrentHashMap<>(16);
 
+	public static int getCount() {
+		return MAP.size();
+	}
+	
 	// add
 	public static void add(Long id, NioSocketChannel channel) {
 		MAP.put(id, channel);

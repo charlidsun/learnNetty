@@ -1,6 +1,5 @@
 package com.sun.heartclient.client;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +25,7 @@ public class EchoClientHandle extends SimpleChannelInboundHandler<ByteBuf> {
 				LOGGER.info("已经 10 秒没有发送信息！");
 				// 向服务端发送消息
 				CustomProtocol heartBeat = SpringBeanFactory.getBean("heartBeat", CustomProtocol.class);
+				System.out.println(heartBeat.toString());
 				ctx.writeAndFlush(heartBeat).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
 			}
 		}
