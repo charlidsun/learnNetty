@@ -21,7 +21,6 @@ public class HeartbeatDecoder extends ByteToMessageDecoder {
 		byte[] bytes = new byte[in.readableBytes()];
 		in.readBytes(bytes);
 		String content = new String(bytes);
-
 		CustomProtocol customProtocol = new CustomProtocol();
 		customProtocol.setId(id);
 		customProtocol.setContent(content);
