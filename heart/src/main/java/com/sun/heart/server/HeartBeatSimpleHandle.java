@@ -26,16 +26,6 @@ public class HeartBeatSimpleHandle extends SimpleChannelInboundHandler<CustomPro
     	NettySocketHolder.remove((NioSocketChannel)ctx.channel());
     }
 
-	
-    @Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-    	logger.info("新来一条链接地址->");
-    	System.out.println(msg.toString());
-		//保存链接地址
-		//NettySocketHolder.add(customProtocol.getId(),(NioSocketChannel)ctx.channel()) ;
-    }
-
-
 	/**
      * 处理过来的链接
      */
@@ -43,6 +33,7 @@ public class HeartBeatSimpleHandle extends SimpleChannelInboundHandler<CustomPro
 	protected void channelRead0(ChannelHandlerContext ctx, CustomProtocol customProtocol) throws Exception {
 		
 		logger.info("新来一条链接地址->");
+		System.out.println(customProtocol.toString());
 		//保存链接地址
 		NettySocketHolder.add(customProtocol.getId(),(NioSocketChannel)ctx.channel()) ;
 
