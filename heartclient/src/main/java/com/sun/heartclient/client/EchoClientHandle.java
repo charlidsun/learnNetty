@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -15,6 +16,7 @@ public class EchoClientHandle extends SimpleChannelInboundHandler<ByteBuf> {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(EchoClientHandle.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 
@@ -24,9 +26,10 @@ public class EchoClientHandle extends SimpleChannelInboundHandler<ByteBuf> {
 			if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
 				LOGGER.info("已经 10 秒没有发送信息！");
 				// 向服务端发送消息
-				CustomProtocol heartBeat = SpringBeanFactory.getBean("heartBeat", CustomProtocol.class);
-				System.out.println(heartBeat.toString());
-				ctx.writeAndFlush(heartBeat).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
+				CustomProtocol heartBeat = new CustomProtocol(1l,"heee");
+				//ctx.writeAndFlush(heartBeat).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
+				//ctx.writeAndFlush(heartBeat).addListeners(ChannelFutureListener.CLOSE_ON_FAILURE);
+				ctx.writeAndFlush(Unpooled.copiedBuffer(heartBeat.toString(),CharsetUtil.UTF_8));	
 			}
 		}
 
